@@ -26,12 +26,12 @@ exports.userRegister = async (req, res, next)=> {
 
         // hash the password
         const salt = await bcrypt.genSalt();
-        const passwordHash = await bcrypt.hash(password, salt)
+        const hashedPassword = await bcrypt.hash(password, salt)
 
         // save a new user account to DB
         const newUSer = new userModel({
             email: email,
-            passwordHash
+            passwordHash: hashedPassword
         });
         const savedUser = await newUSer.save();   
 
@@ -39,7 +39,7 @@ exports.userRegister = async (req, res, next)=> {
         const token = jwt.sign({
             user: savedUser._id
         }, process.env.JWT_SECRET);
-        console.log(token);
+        console.log(`token:`,token);
 
         // send the token in a HTTP-only cookie
         res.cookie(`token`, token, {
