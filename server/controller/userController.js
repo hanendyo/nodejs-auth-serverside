@@ -91,6 +91,19 @@ exports.userLogin= async (req, res, next) => {
     }
 }
 
+exports.userLoggedIn =(req, res, next)=>{
+    try {
+        const token = req.cookies.token
+        if(!token) return resjson(false);
+
+        jwt.verify(token, process.env.JWT_SECRET);
+
+        res.send(true);
+    } catch (err) {
+        res.send(false)
+    }
+}
+
 exports.userLogout = (req, res, next) => {
     res.cookie('token', '', {
         httpOnly: true,

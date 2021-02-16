@@ -5,11 +5,6 @@ const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
 
-// router components
-const userRouter = require('./routers/userRouter')
-const customerRouter = require('./routers/customerRouter');
-
-
 dotenv.config();
 
 // set up server
@@ -35,6 +30,10 @@ mongoose.connect(process.env.MDB_CONNECT, {
     if(err) return console.error(err);
     console.log(`Connected to mongoDB.`);
 });
+
+// router components
+const userRouter = require('./routers/userRouter')
+const customerRouter = require('./routers/customerRouter');
 
 // setup routes
 app.use('/v1/auth', userRouter)
